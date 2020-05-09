@@ -1,17 +1,19 @@
-#pragma once
+#ifndef ENTITY_H
+#define ENTITY_H
 
-enum EntityType
-{
+#include "pch.h"
+
+enum EntityType {
 	player,
 	block,
 	echelle
 };
 
-class Entity
-{
+class Entity {
 public:
 	Entity() { };
 	~Entity() { };
+	bool collidesWith(sf::Sprite entity);
 
 public:
 	sf::Sprite m_sprite;
@@ -25,3 +27,4 @@ public:
 	int m_times = 0;
 };
 
+#endif

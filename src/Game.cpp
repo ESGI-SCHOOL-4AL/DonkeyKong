@@ -1,7 +1,4 @@
-#include "pch.h"
-#include "StringHelpers.h"
 #include "Game.h"
-#include "EntityManager.h"
 
 const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
@@ -32,7 +29,6 @@ Game::Game()
 		{
 			_Block[i][j].setTexture(_TextureBlock);
 			_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
-
 			std::shared_ptr<Entity> se = std::make_shared<Entity>();
 			se->m_sprite = _Block[i][j];
 			se->m_type = EntityType::block;
@@ -46,8 +42,7 @@ Game::Game()
 
 	_TextureEchelle.loadFromFile("Media/Textures/Echelle.png");
 
-	for (int i = 0; i < ECHELLE_COUNT; i++)
-	{
+	for (int i = 0; i < ECHELLE_COUNT; i++) {
 		_Echelle[i].setTexture(_TextureEchelle);
 		_Echelle[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y );
 
@@ -58,6 +53,15 @@ Game::Game()
 		se->m_position = _Echelle[i].getPosition();
 		EntityManager::m_Entities.push_back(se);
 	}
+
+	// _Echelle[0].setTexture(_TextureEchelle);
+	// _Echelle[0].setPosition(0, 0);
+	// std::shared_ptr<Entity> se = std::make_shared<Entity>();
+	// se->m_sprite = _Echelle[0];
+	// se->m_type = EntityType::echelle;
+	// se->m_size = _TextureEchelle.getSize();
+	// se->m_position = _Echelle[0].getPosition();
+	// EntityManager::m_Entities.push_back(se);
 
 	// Draw Mario
 
@@ -76,6 +80,7 @@ Game::Game()
 	player->m_size = mTexture.getSize();
 	player->m_position = mPlayer.getPosition();
 	EntityManager::m_Entities.push_back(player);
+	player_entity = player;
 
 	// Draw Statistic Font 
 
@@ -129,32 +134,38 @@ void Game::processEvents()
 	}
 }
 
-void Game::update(sf::Time elapsedTime)
-{
+void Game::update(sf::Time elapsedTime) {
 	sf::Vector2f movement(0.f, 0.f);
-	if (mIsMovingUp)
-		movement.y -= PlayerSpeed;
-	if (mIsMovingDown)
-		movement.y += PlayerSpeed;
+
+	for (auto ladder  : _Echelle) {
+		if(player_entity->collidesWith(ladder)) {
+			std::cout << "YES I'M IN !" << std::endl;
+			if (mIsMovingUp)
+				movement.y -= PlayerSpeed;
+			if (mIsMovingDown)
+				movement.y += PlayerSpeed;
+			break;
+		}
+
+	}
+	
 	if (mIsMovingLeft)
 		movement.x -= PlayerSpeed;
 	if (mIsMovingRight)
 		movement.x += PlayerSpeed;
+	
+	// for (std::shared_ptr<Entity> entity : EntityManager::m_Entities) {
+	// 	if (entity->m_enabled == false) {
+	// 		continue;
+	// 	}
 
-	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
-	{
-		if (entity->m_enabled == false)
-		{
-			continue;
-		}
+	// 	if (entity->m_type != EntityType::player) {
+	// 		continue;
+	// 	}
 
-		if (entity->m_type != EntityType::player)
-		{
-			continue;
-		}
-
-		entity->m_sprite.move(movement * elapsedTime.asSeconds());
-	}
+	// 	entity->m_sprite.move(movement * elapsedTime.asSeconds());
+	// }
+	player_entity->m_sprite.move(movement * elapsedTime.asSeconds());	
 }
 
 void Game::render()

@@ -1,9 +1,19 @@
-#pragma once
+#ifndef GAME_H
+#define GAME_H
+
+#include "pch.h"
+#include "EntityManager.h"
+#include "StringHelpers.h"
+
 
 #define ECHELLE_COUNT 4
 #define BLOCK_COUNT_X 8
 #define BLOCK_COUNT_Y 5
 #define BLOCK_SPACE 110.f
+#define LADDER_WIDTH 30
+#define LADDER_HEIGHT 70
+#define MARIO_WIDHT 46
+#define MARIO_HEIGHT 55
 
 class Game
 {
@@ -22,7 +32,7 @@ private:
 
 private:
 	static const float		PlayerSpeed;
-	static const sf::Time	TimePerFrame;
+	static const sf::Time	TimePerFrame;	
 
 	sf::RenderWindow		mWindow;
 	sf::Texture	mTexture;
@@ -45,5 +55,8 @@ private:
 	sf::Sprite	_Weapon;
 	sf::Vector2u _sizeBlock;
 	sf::Vector2u _sizeMario;
+	std::shared_ptr<Entity> player_entity;
+
 };
 
+#endif
