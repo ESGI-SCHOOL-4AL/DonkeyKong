@@ -1,4 +1,4 @@
-#include "EntityManager.h"
+#include "EntityManager.hpp"
 
 std::vector<std::shared_ptr<Entity>> EntityManager::entities_;
 
@@ -15,9 +15,9 @@ std::shared_ptr<Entity> EntityManager::GetPlayer() {
 			continue;
 		}
 
-		// if (instanceof<Mario>(entity)) {
-		// 	return entity;
-		// }
+		if (InstanceOf<Mario>(entity.get())) {
+			return entity;
+		}
 	}
 
 	return nullptr;

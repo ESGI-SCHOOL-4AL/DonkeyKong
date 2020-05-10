@@ -1,12 +1,12 @@
-#ifndef ENTITY_MANAGER_H
-#define ENTITY_MANAGER_H
+#ifndef ENTITY_MANAGER_HPP
+#define ENTITY_MANAGER_HPP
 
 #include <memory>
 #include <vector>
 
-#include "Entity.h"
-#include "InstanceOfHelper.h"
-// Add Mario Class
+#include "Entity.hpp"
+#include "InstanceOfHelper.hpp"
+#include "Mario.hpp"
 
 class EntityManager {
 	public:

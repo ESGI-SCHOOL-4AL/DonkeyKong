@@ -1,5 +1,4 @@
-﻿#include "pch.h"
-#include "Game.h"
+﻿#include "Game.hpp"
 
 int main() {
 	Game game;

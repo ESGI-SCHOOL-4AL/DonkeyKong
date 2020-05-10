@@ -1,5 +1,5 @@
-#ifndef ENTITIES_DATA_H
-#define ENTITIES_DATA_H
+#ifndef ENTITIES_DATA_HPP
+#define ENTITIES_DATA_HPP
 
 #define BLOCK_COUNT_X 8
 #define BLOCK_COUNT_Y 5

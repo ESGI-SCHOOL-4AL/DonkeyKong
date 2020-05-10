@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "Game.hpp"
 
 const float Game::playerSpeed = 100.f;
 const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);

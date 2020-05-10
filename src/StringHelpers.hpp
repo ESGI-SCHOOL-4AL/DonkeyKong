@@ -1,5 +1,5 @@
-#ifndef STRING_HELPERS_H
-#define STRING_HELPERS_H
+#ifndef STRING_HELPERS_HPP
+#define STRING_HELPERS_HPP
 
 #include <string>
 #include <sstream>

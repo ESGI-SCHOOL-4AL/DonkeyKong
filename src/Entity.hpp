@@ -1,20 +1,14 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#ifndef ENTITY_HPP
+#define ENTITY_HPP
 
 #include <vector>
 // #include <memory>
 #include <SFML/Graphics.hpp>
 
-#include "EntitiesData.h"
-#include "Game.h"
+#include "EntitiesData.hpp"
+#include "Game.hpp"
 
 #define GRAVITY 40.f
-
-enum EntityType {
-	player,
-	block,
-	echelle
-};
 
 class Entity {
 public:

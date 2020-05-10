@@ -1,12 +1,12 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef GAME_HPP
+#define GAME_HPP
 
 #include <memory>
 #include <iostream>
 
-#include "EntityManager.h"
-#include "StringHelpers.h"
-#include "EntitiesData.h"
+#include "EntityManager.hpp"
+#include "StringHelpers.hpp"
+#include "EntitiesData.hpp"
 
 
 class Game {
