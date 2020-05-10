@@ -1,30 +1,23 @@
-#include "pch.h"
 #include "EntityManager.h"
 
-std::vector<std::shared_ptr<Entity>> EntityManager::m_Entities;
+std::vector<std::shared_ptr<Entity>> EntityManager::entities_;
 
-EntityManager::EntityManager()
-{
+EntityManager::EntityManager() {
 }
 
 
-EntityManager::~EntityManager()
-{
+EntityManager::~EntityManager() {
 }
 
-std::shared_ptr<Entity> EntityManager::GetPlayer()
-{
-	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
-	{
-		if (entity->m_enabled == false)
-		{
+std::shared_ptr<Entity> EntityManager::GetPlayer() {
+	for (std::shared_ptr<Entity> entity : EntityManager::entities_) {
+		if (entity->drawable_ == false) {
 			continue;
 		}
 
-		if (entity->m_type == EntityType::player)
-		{
-			return entity;
-		}
+		// if (instanceof<Mario>(entity)) {
+		// 	return entity;
+		// }
 	}
 
 	return nullptr;

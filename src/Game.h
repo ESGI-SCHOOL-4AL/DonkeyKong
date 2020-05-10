@@ -1,61 +1,56 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "pch.h"
+#include <memory>
+#include <iostream>
+
 #include "EntityManager.h"
 #include "StringHelpers.h"
+#include "EntitiesData.h"
 
 
-#define ECHELLE_COUNT 4
-#define BLOCK_COUNT_X 8
-#define BLOCK_COUNT_Y 5
-#define BLOCK_SPACE 110.f
-#define LADDER_WIDTH 30
-#define LADDER_HEIGHT 70
-#define MARIO_WIDHT 46
-#define MARIO_HEIGHT 55
+class Game {
+	public:
+		Game();
+		~Game() { };
+		void Run();
 
-class Game
-{
-public:
-	Game();
-	~Game() { };
-	void run();
+	public:
+		sf::Sprite	ladder_[LADDER_COUNT];
+		sf::Sprite	block_[BLOCK_COUNT_X][BLOCK_COUNT_Y];
 
-private:
-	void processEvents();
-	void update(sf::Time elapsedTime);
-	void render();
+	private:
+		void ProcessEvents();
+		void Update(sf::Time elapsedTime);
+		void Render();
 
-	void updateStatistics(sf::Time elapsedTime);
-	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+		void UpdateStatistics(sf::Time elapsedTime);
+		void HandlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
-private:
-	static const float		PlayerSpeed;
-	static const sf::Time	TimePerFrame;	
+	private:
+		static const float		playerSpeed;
+		static const sf::Time	timePerFrame;	
 
-	sf::RenderWindow		mWindow;
-	sf::Texture	mTexture;
-	sf::Sprite	mPlayer;
-	sf::Font	mFont;
-	sf::Text	mStatisticsText;
-	sf::Time	mStatisticsUpdateTime;
+		sf::RenderWindow window_;
+		sf::Texture	texture_;
+		sf::Sprite	player_;
+		sf::Font	font_;
+		sf::Text	statistics_text_;
+		sf::Time	statistics_update_time_;
 
-	std::size_t	mStatisticsNumFrames;
-	bool mIsMovingUp;
-	bool mIsMovingDown;
-	bool mIsMovingRight;
-	bool mIsMovingLeft;
+		std::size_t	statistics_num_frames_;
+		bool is_moving_up_;
+		bool is_moving_down_;
+		bool is_moving_right_;
+		bool is_moving_left;
 
-	sf::Texture	_TextureEchelle;
-	sf::Sprite	_Echelle[ECHELLE_COUNT];
-	sf::Texture	_TextureBlock;
-	sf::Sprite	_Block[BLOCK_COUNT_X][BLOCK_COUNT_Y];
-	sf::Texture	_TextureWeapon;
-	sf::Sprite	_Weapon;
-	sf::Vector2u _sizeBlock;
-	sf::Vector2u _sizeMario;
-	std::shared_ptr<Entity> player_entity;
+		sf::Texture	texture_ladder_;
+		sf::Texture	texture_block_;
+		sf::Texture	texture_weapon_;
+		sf::Sprite	weapon_;
+		sf::Vector2u size_block_;
+		sf::Vector2u size_mario_;
+		std::shared_ptr<Entity> player_entity_;
 
 };
 

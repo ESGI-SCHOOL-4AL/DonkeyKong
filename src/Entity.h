@@ -1,7 +1,14 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "pch.h"
+#include <vector>
+// #include <memory>
+#include <SFML/Graphics.hpp>
+
+#include "EntitiesData.h"
+#include "Game.h"
+
+#define GRAVITY 40.f
 
 enum EntityType {
 	player,
@@ -13,18 +20,17 @@ class Entity {
 public:
 	Entity() { };
 	~Entity() { };
-	bool collidesWith(sf::Sprite entity);
+	bool CollidesWith(sf::Sprite entity);
+	bool WillCollide(sf::Sprite entity, sf::Vector2f newPos);
+	void Update(Game* game, sf::Time elapsedTime);
 
 public:
-	sf::Sprite m_sprite;
-	sf::Vector2u m_size;
-	sf::Vector2f m_position;
-	EntityType m_type;
-	bool m_enabled = true;
-
-	// Enemy only
-	bool m_bLeftToRight = true;
-	int m_times = 0;
+	sf::Sprite sprite_;
+	sf::Vector2u size_;
+	sf::Vector2f position_;
+	sf::Vector2f velocity_;
+	bool drawable_;
+	bool gravity_;
 };
 
 #endif

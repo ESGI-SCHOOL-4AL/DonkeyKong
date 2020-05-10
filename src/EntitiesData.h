@@ -1,0 +1,17 @@
+#ifndef ENTITIES_DATA_H
+#define ENTITIES_DATA_H
+
+#define BLOCK_COUNT_X 8
+#define BLOCK_COUNT_Y 5
+#define BLOCK_WIDHT 70
+#define BLOCK_HEIGHT 33
+#define BLOCK_SPACE 110.f
+
+#define LADDER_COUNT 4
+#define LADDER_WIDTH 30
+#define LADDER_HEIGHT 70
+
+#define MARIO_WIDHT 46
+#define MARIO_HEIGHT 55
+
+#endif
