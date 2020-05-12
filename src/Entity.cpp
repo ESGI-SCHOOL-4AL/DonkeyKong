@@ -1,7 +1,11 @@
 #include "Entity.hpp"
 
 Entity::Entity() {
-    drawable_ = false;
+    sprite_;
+    size_;
+    position_;
+    velocity_;
+    drawable_ = true;
 	gravity_ = false;
 }
 
@@ -19,21 +23,25 @@ bool Entity::WillCollide(sf::Sprite entity, sf::Vector2f new_pos) {
     return collidesX && collidesY;
 }
 
-void Entity::Update(Game* game, sf::Time elapsedTime) {
+void Entity::Update(std::vector<Entity> entities, sf::Time elapsedTime) {
     sf::Vector2f new_pos = sf::Vector2f(velocity_.x, velocity_.y);
     
     if (gravity_) {
         new_pos += sf::Vector2f(0.f, GRAVITY) * elapsedTime.asSeconds() + sprite_.getPosition();
         
-        for (int i = 0; i < BLOCK_COUNT_X; i++) {
-            for (int j = 0; j < BLOCK_COUNT_Y; j++) {
-                auto platform = game->block_[i][j];
-                if(WillCollide(platform, new_pos)) {
-                    return;
-                }
+
+        for (Entity entity : entities) {
+            if (WillCollide(entity.sprite_, new_pos)) {
+                return;
             }
         }
 
 	    sprite_.move(sf::Vector2f(0.f, GRAVITY) * elapsedTime.asSeconds());
+
     }
+}
+
+void Entity::Drawable(sf::RenderWindow window) {
+    if (drawable_)
+		window.draw(sprite_);
 }

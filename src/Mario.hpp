@@ -4,7 +4,9 @@
 #include "Entity.hpp"
 
 class Mario : Entity {
-
+    public:
+        Mario();
+        ~Mario();
 };
 
 #endif

@@ -18,41 +18,39 @@ Game::Game()
 {
 	window_.setFramerateLimit(160);
 
+	entities_manager_ = EntityManager();
+	block_generator_ = BlockGenerator();
+	platform_blocks_ = std::vector<Block>();
+
 	// Draw blocks
 
-	texture_block_.loadFromFile("Media/Textures/Block.png");
-	size_block_ = texture_block_.getSize();
-
-	for (int i = 0; i < BLOCK_COUNT_X; i++)
-	{
-		for (int j = 0; j < BLOCK_COUNT_Y; j++)
-		{
-			block_[i][j].setTexture(texture_block_);
-			block_[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
-			std::shared_ptr<Entity> se = std::make_shared<Entity>();
-			se->sprite_ = block_[i][j];
-			se->size_ = texture_block_.getSize();
-			se->position_ = block_[i][j].getPosition();
-			EntityManager::entities_.push_back(se);
+	for (int i = 1; i <= BLOCK_COUNT_Y; i++) {
+		std::vector<Block> current_platform = block_generator_.GeneratePlatform(BLOCK_COUNT_X, SPACING_FROM_WINDOW, BLOCK_SPACE * i);
+		for (Block block : current_platform) { 
+			platform_blocks_.push_back(block);
+			std::shared_ptr<Entity> shared_block = std::make_shared<Entity>();
+			*shared_block = block;
+			entities_manager_.entities_.push_back(shared_block);
 		}
 	}
 
 	// Draw Echelles
-
-	texture_ladder_.loadFromFile("Media/Textures/Echelle.png");
+	std::cout << "Test 1" << std::endl; 
 
 	for (int i = 0; i < LADDER_COUNT; i++) {
 		ladder_[i].setTexture(texture_ladder_);
 		ladder_[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + size_block_.y );
 
-		std::shared_ptr<Entity> se = std::make_shared<Entity>();
-		se->sprite_ = ladder_[i];
-		se->size_ = texture_ladder_.getSize();
-		se->position_ = ladder_[i].getPosition();
-		EntityManager::entities_.push_back(se);
+		// std::shared_ptr<Entity> se = std::make_shared<Entity>();
+		// se->sprite_ = ladder_[i];
+		// se->size_ = texture_ladder_.getSize();
+		// se->position_ = ladder_[i].getPosition();
+		// entities_manager_.entities_.push_back(se);
+
 	}
 
 	// Draw Mario
+	std::cout << "Test 2" << std::endl;
 
 	texture_.loadFromFile("Media/Textures/Mario_small_transparent.png"); // Mario_small.png");
 	size_mario_ = texture_.getSize();
@@ -68,10 +66,11 @@ Game::Game()
 	player->size_ = texture_.getSize();
 	player->position_ = player_.getPosition();
 	player->gravity_ = true;
-	EntityManager::entities_.push_back(player);
+	entities_manager_.entities_.push_back(player);
 	player_entity_ = player;
 
 	// Draw Statistic Font 
+	std::cout << "Test 3" << std::endl;
 
 	font_.loadFromFile("Media/Sansation.ttf");
 	statistics_text_.setString("Welcome to Donkey Kong 1981");
@@ -125,6 +124,7 @@ void Game::ProcessEvents()
 
 void Game::Update(sf::Time elapsedTime) {
 	sf::Vector2f movement(0.f, 0.f);
+	std::cout << "Frame i'm" << std::endl;
 
 	for (auto ladder  : ladder_) {
 		if(player_entity_->CollidesWith(ladder)) {
@@ -151,12 +151,13 @@ void Game::Update(sf::Time elapsedTime) {
 		}
 	}
 	
-	// if (is_moving_left)
-	// 	movement.x -= playerSpeed;
-	// if (is_moving_right_)
-	// 	movement.x += playerSpeed;
-	
-	// for (std::shared_ptr<Entity> entity : EntityManager::entities_) {
+	if (is_moving_left)
+		movement.x -= playerSpeed;
+	if (is_moving_right_)
+		movement.x += playerSpeed;
+
+	// To send into the hell
+	// for (std::shared_ptr<Entity> entity : entities_manager_.entities_) {
 	// 	if (entity->drawable_ == false) {
 	// 		continue;
 	// 	}
@@ -167,26 +168,21 @@ void Game::Update(sf::Time elapsedTime) {
 
 	// 	entity->sprite_.move(movement * elapsedTime.asSeconds());
 	// }
-	player_entity_->sprite_.move(movement * elapsedTime.asSeconds());	
-	player_entity_->Update(this, elapsedTime);
+	
+	// player_entity_->sprite_.move(movement * elapsedTime.asSeconds());	
+	player_entity_->Update(platform_blocks_, elapsedTime);
 }
 
-void Game::Render()
-{
+void Game::Render() {
 	window_.clear();
-
-	for (std::shared_ptr<Entity> entity : EntityManager::entities_)
-	{
-		if (entity->drawable_ == false)
-		{
-			continue;
-		}
-
-		window_.draw(entity->sprite_);
+	std::cout << "Render i'm" << std::endl; 
+	for (std::shared_ptr<Entity> entity : entities_manager_.entities_) {
+		entity.Drawable(window_);
 	}
 
 	window_.draw(statistics_text_);
 	window_.display();
+	std::cout << "Render i'm not" << std::endl; 
 }
 
 void Game::UpdateStatistics(sf::Time elapsedTime)

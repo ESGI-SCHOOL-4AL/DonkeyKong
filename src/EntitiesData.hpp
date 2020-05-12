@@ -1,17 +1,14 @@
 #ifndef ENTITIES_DATA_HPP
 #define ENTITIES_DATA_HPP
 
+#define SPACING_FROM_WINDOW 100.f
 #define BLOCK_COUNT_X 8
 #define BLOCK_COUNT_Y 5
-#define BLOCK_WIDHT 70
-#define BLOCK_HEIGHT 33
 #define BLOCK_SPACE 110.f
 
 #define LADDER_COUNT 4
-#define LADDER_WIDTH 30
-#define LADDER_HEIGHT 70
 
-#define MARIO_WIDHT 46
-#define MARIO_HEIGHT 55
+#define MARIO_WIDHT 46.f
+#define MARIO_HEIGHT 55.f
 
 #endif

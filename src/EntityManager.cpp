@@ -1,8 +1,7 @@
 #include "EntityManager.hpp"
 
-std::vector<std::shared_ptr<Entity>> EntityManager::entities_;
-
 EntityManager::EntityManager() {
+	std::vector<std::shared_ptr<Entity>> entities_;
 }
 
 
