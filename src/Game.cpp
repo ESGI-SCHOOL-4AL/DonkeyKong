@@ -4,17 +4,7 @@ const float Game::playerSpeed = 100.f;
 const sf::Time Game::timePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game()
-	: window_(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close)
-	, texture_()
-	, player_()
-	, font_()
-	, statistics_text_()
-	, statistics_update_time_()
-	, statistics_num_frames_(0)
-	, is_moving_up_(false)
-	, is_moving_down_(false)
-	, is_moving_right_(false)
-	, is_moving_left(false)
+	: window_(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close), texture_(), player_(), font_(), statistics_text_(), statistics_update_time_(), statistics_num_frames_(0), is_moving_up_(false), is_moving_down_(false), is_moving_right_(false), is_moving_left(false)
 {
 	window_.setFramerateLimit(160);
 
@@ -24,9 +14,11 @@ Game::Game()
 
 	// Draw blocks
 
-	for (int i = 1; i <= BLOCK_COUNT_Y; i++) {
+	for (int i = 1; i <= BLOCK_COUNT_Y; i++)
+	{
 		std::vector<Block> current_platform = block_generator_.GeneratePlatform(BLOCK_COUNT_X, SPACING_FROM_WINDOW, BLOCK_SPACE * i);
-		for (Block block : current_platform) { 
+		for (Block block : current_platform)
+		{
 			platform_blocks_.push_back(block);
 			std::shared_ptr<Entity> shared_block = std::make_shared<Entity>();
 			*shared_block = block;
@@ -35,18 +27,18 @@ Game::Game()
 	}
 
 	// Draw Echelles
-	std::cout << "Test 1" << std::endl; 
+	std::cout << "Test 1" << std::endl;
 
-	for (int i = 0; i < LADDER_COUNT; i++) {
+	for (int i = 0; i < LADDER_COUNT; i++)
+	{
 		ladder_[i].setTexture(texture_ladder_);
-		ladder_[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + size_block_.y );
+		ladder_[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + size_block_.y);
 
-		// std::shared_ptr<Entity> se = std::make_shared<Entity>();
-		// se->sprite_ = ladder_[i];
-		// se->size_ = texture_ladder_.getSize();
-		// se->position_ = ladder_[i].getPosition();
-		// entities_manager_.entities_.push_back(se);
-
+		std::shared_ptr<Entity> se = std::make_shared<Entity>();
+		se->sprite_ = ladder_[i];
+		se->size_ = texture_ladder_.getSize();
+		se->position_ = ladder_[i].getPosition();
+		entities_manager_.entities_.push_back(se);
 	}
 
 	// Draw Mario
@@ -69,7 +61,7 @@ Game::Game()
 	entities_manager_.entities_.push_back(player);
 	player_entity_ = player;
 
-	// Draw Statistic Font 
+	// Draw Statistic Font
 	std::cout << "Test 3" << std::endl;
 
 	font_.loadFromFile("Media/Sansation.ttf");
@@ -122,12 +114,15 @@ void Game::ProcessEvents()
 	}
 }
 
-void Game::Update(sf::Time elapsedTime) {
+void Game::Update(sf::Time elapsedTime)
+{
 	sf::Vector2f movement(0.f, 0.f);
 	std::cout << "Frame i'm" << std::endl;
 
-	for (auto ladder  : ladder_) {
-		if(player_entity_->CollidesWith(ladder)) {
+	for (auto ladder : ladder_)
+	{
+		if (player_entity_->CollidesWith(ladder))
+		{
 			std::cout << "YES I'M IN !" << std::endl;
 			if (is_moving_up_)
 				movement.y -= playerSpeed;
@@ -137,20 +132,18 @@ void Game::Update(sf::Time elapsedTime) {
 		}
 	}
 
-	for (int i = 0; i < BLOCK_COUNT_X; i++) {
-		for (int j = 0; j < BLOCK_COUNT_Y; j++) {
-			auto platform = block_[i][j];
-			if(player_entity_->CollidesWith(platform)) {
-				if (is_moving_left)
-					movement.x -= playerSpeed;
-				if (is_moving_right_)
-					movement.x += playerSpeed;
-				i = BLOCK_COUNT_X;
-				break;
-			}
+	for (auto block : platform_blocks_)
+	{
+		if (player_entity_->CollidesWith(block.sprite_))
+		{
+			if (is_moving_left)
+				movement.x -= playerSpeed;
+			if (is_moving_right_)
+				movement.x += playerSpeed;
+			break;
 		}
 	}
-	
+
 	if (is_moving_left)
 		movement.x -= playerSpeed;
 	if (is_moving_right_)
@@ -168,21 +161,23 @@ void Game::Update(sf::Time elapsedTime) {
 
 	// 	entity->sprite_.move(movement * elapsedTime.asSeconds());
 	// }
-	
-	// player_entity_->sprite_.move(movement * elapsedTime.asSeconds());	
-	player_entity_->Update(platform_blocks_, elapsedTime);
+
+	// player_entity_->sprite_.move(movement * elapsedTime.asSeconds());
+	// player_entity_->Update(platform_blocks_, elapsedTime);
 }
 
-void Game::Render() {
+void Game::Render()
+{
 	window_.clear();
-	std::cout << "Render i'm" << std::endl; 
-	for (std::shared_ptr<Entity> entity : entities_manager_.entities_) {
-		entity.Drawable(window_);
+	std::cout << "Render i'm" << std::endl;
+	for (std::shared_ptr<Entity> entity : entities_manager_.entities_)
+	{
+		entity->Draw(&window_);
 	}
 
 	window_.draw(statistics_text_);
 	window_.display();
-	std::cout << "Render i'm not" << std::endl; 
+	std::cout << "Render i'm not" << std::endl;
 }
 
 void Game::UpdateStatistics(sf::Time elapsedTime)

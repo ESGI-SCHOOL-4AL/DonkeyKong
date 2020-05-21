@@ -1,19 +1,22 @@
 #include "Entity.hpp"
 
-Entity::Entity() {
+Entity::Entity()
+{
     sprite_;
     size_;
     position_;
     velocity_;
     drawable_ = true;
-	gravity_ = false;
+    gravity_ = false;
 }
 
-bool Entity::CollidesWith(sf::Sprite entity) {
+bool Entity::CollidesWith(sf::Sprite entity)
+{
     return WillCollide(entity, sprite_.getPosition());
 }
 
-bool Entity::WillCollide(sf::Sprite entity, sf::Vector2f new_pos) {
+bool Entity::WillCollide(sf::Sprite entity, sf::Vector2f new_pos)
+{
     auto size_entity_texture = entity.getTexture()->getSize();
     auto pos = entity.getPosition();
 
@@ -23,25 +26,28 @@ bool Entity::WillCollide(sf::Sprite entity, sf::Vector2f new_pos) {
     return collidesX && collidesY;
 }
 
-void Entity::Update(std::vector<Entity> entities, sf::Time elapsedTime) {
+void Entity::Update(std::vector<Entity> entities, sf::Time elapsedTime)
+{
     sf::Vector2f new_pos = sf::Vector2f(velocity_.x, velocity_.y);
-    
-    if (gravity_) {
-        new_pos += sf::Vector2f(0.f, GRAVITY) * elapsedTime.asSeconds() + sprite_.getPosition();
-        
 
-        for (Entity entity : entities) {
-            if (WillCollide(entity.sprite_, new_pos)) {
+    if (gravity_)
+    {
+        new_pos += sf::Vector2f(0.f, GRAVITY) * elapsedTime.asSeconds() + sprite_.getPosition();
+
+        for (Entity entity : entities)
+        {
+            if (WillCollide(entity.sprite_, new_pos))
+            {
                 return;
             }
         }
 
-	    sprite_.move(sf::Vector2f(0.f, GRAVITY) * elapsedTime.asSeconds());
-
+        sprite_.move(sf::Vector2f(0.f, GRAVITY) * elapsedTime.asSeconds());
     }
 }
 
-void Entity::Drawable(sf::RenderWindow window) {
+void Entity::Draw(sf::RenderWindow *window)
+{
     if (drawable_)
-		window.draw(sprite_);
+        window->draw(sprite_);
 }

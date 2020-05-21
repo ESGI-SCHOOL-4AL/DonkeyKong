@@ -8,21 +8,22 @@
 
 #define GRAVITY 40.f
 
-class Entity {
-	public:
-		Entity();
-		bool CollidesWith(sf::Sprite entity);
-		bool WillCollide(sf::Sprite entity, sf::Vector2f newPos);
-		void Drawable(sf::RenderWindow window);
-		void Update(std::vector<Entity>, sf::Time elapsedTime);
+class Entity
+{
+public:
+	Entity();
+	bool CollidesWith(sf::Sprite entity);
+	bool WillCollide(sf::Sprite entity, sf::Vector2f newPos);
+	void Draw(sf::RenderWindow *window);
+	void Update(std::vector<Entity>, sf::Time elapsedTime);
 
-	public:
-		sf::Sprite sprite_;
-		sf::Vector2u size_;
-		sf::Vector2f position_;
-		sf::Vector2f velocity_;
-		bool drawable_;
-		bool gravity_;
+public:
+	sf::Sprite sprite_;
+	sf::Vector2u size_;
+	sf::Vector2f position_;
+	sf::Vector2f velocity_;
+	bool drawable_;
+	bool gravity_;
 };
 
 #endif
