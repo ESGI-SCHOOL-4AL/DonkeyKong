@@ -2,6 +2,8 @@
 #define RENDER_MANAGER_HPP
 
 #include <memory>
+#include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
 
 class RenderManager {
