@@ -6,6 +6,8 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
+#include "Entity.hpp"
+
 class RenderManager {
     public:
         RenderManager();

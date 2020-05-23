@@ -22,6 +22,7 @@ class Entity {
         std::string GetTexturePath();
         bool IsDrawable();
         bool IsGravityImpacted();
+        sf::Vector2u GetSize();
     
     protected:
         sf::Texture texture_;
@@ -29,6 +30,7 @@ class Entity {
         bool drawable_;
         bool gravity_impacted_;
         std::string texture_path_;
+        sf::Vector2u size_;
 };
 
 #endif
