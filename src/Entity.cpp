@@ -47,4 +47,8 @@ sf::Vector2u Entity::GetSize() {
     return size_;
 }
 
+void Entity::SetPosition(float x_position, float y_position) {
+    sprite_->setPosition(x_position, y_position);
+}
+
 Entity::~Entity() { }

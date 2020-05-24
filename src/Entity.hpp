@@ -23,6 +23,7 @@ class Entity {
         bool IsDrawable();
         bool IsGravityImpacted();
         sf::Vector2u GetSize();
+        void SetPosition(float x_position, float y_position);
     
     protected:
         sf::Texture texture_;
