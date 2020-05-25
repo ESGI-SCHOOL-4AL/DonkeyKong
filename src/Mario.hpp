@@ -7,12 +7,13 @@
 #include "Entity.hpp"
 #include "Controllable.hpp"
 
-class Mario : public Entity, public Controllable
+class Mario : public Controllable
 {
 public:
     Mario();
     Mario(float x_position, float y_position);
-    void Move(sf::Event event);
+    void KeyPressed(sf::Event event);
+    void KeyReleased(sf::Event event);
     ~Mario();
 
 private:

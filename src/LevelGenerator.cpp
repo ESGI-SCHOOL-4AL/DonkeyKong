@@ -21,18 +21,13 @@ std::vector<std::shared_ptr<Entity>> LevelGenerator::GenerateLevel(std::shared_p
     float mario_y_size = mario.GetSize().y;
     mario.SetPosition(100.f + 70.f, SPACING_BETWEEN_PLATFORM * 5 - mario_y_size);
     entities.push_back(mario);
+    event_manager->RegisterControllableEntity(std::make_shared<Mario>(mario));
 
     for (Entity entity : entities)
     {
         std::shared_ptr<Entity> entity_ptr = std::make_shared<Entity>();
         *entity_ptr = entity;
         entities_ptr.push_back(entity_ptr);
-
-        if (InstanceOf<Controllable>(entity_ptr.get()))
-        {
-            // TODO how the hell does polymorphism work???
-            // event_manager->RegisterControllableEntity(entity_ptr.get());
-        }
     }
 
     return entities_ptr;

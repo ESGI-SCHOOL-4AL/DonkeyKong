@@ -17,7 +17,13 @@ void EventManager::ResolveEvent(sf::Event handled_event)
     case sf::Event::KeyPressed:
         for (auto c : controllable_)
         {
-            c->Move(handled_event);
+            c->KeyPressed(handled_event);
+        }
+        break;
+    case sf::Event::KeyReleased:
+        for (auto c : controllable_)
+        {
+            c->KeyReleased(handled_event);
         }
         break;
     default:
@@ -25,7 +31,7 @@ void EventManager::ResolveEvent(sf::Event handled_event)
     }
 }
 
-void EventManager::RegisterControllableEntity(Controllable *controllable)
+void EventManager::RegisterControllableEntity(std::shared_ptr<Controllable> controllable)
 {
     controllable_.push_back(controllable);
 }
