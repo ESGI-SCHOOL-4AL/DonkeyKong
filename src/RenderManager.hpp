@@ -13,7 +13,7 @@ class RenderManager {
         RenderManager();
         RenderManager(std::shared_ptr<sf::RenderWindow> window);
         ~RenderManager();
-        void Render();
+        void Render(std::vector<std::shared_ptr<Entity>> entities);
     
     private:
         std::shared_ptr<sf::RenderWindow> managed_window_;

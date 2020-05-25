@@ -5,6 +5,8 @@ Game::Game() {
     main_window_->create(sf::VideoMode(MAIN_WINDOW_LENGHT, MAIN_WINDOW_HEIGHT), mainWindowName, sf::Style::Close);
     event_manager_ = EventManager(main_window_);
     render_manager_ = RenderManager(main_window_);
+    level_generator_ = LevelGenerator();
+    game_objects_ = level_generator_.GenerateLevel();
 
 }
 
@@ -17,7 +19,7 @@ void Game::Run() {
             event_manager_.ResolveEvent(popped_event);
         }
 
-        render_manager_.Render();
+        render_manager_.Render(game_objects_);
 
     }
 
