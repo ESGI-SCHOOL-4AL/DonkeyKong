@@ -4,15 +4,16 @@ Entity::Entity() { }
 
 Entity::Entity(std::string texture_path) {
     texture_path_ = texture_path;
-    if(! texture_.loadFromFile(texture_path_)) {
+    texture_ = std::make_shared<sf::Texture>();
+    if(! texture_->loadFromFile(texture_path_)) {
         throw FileNotFoundException();
     }
 
     sprite_ = std::make_shared<sf::Sprite>();
-    sprite_->setTexture(texture_);
+    sprite_->setTexture(*texture_);
     sprite_->setPosition(DEFAULT_X_POSITION, DEFAULT_Y_POSITION);
 
-    size_ = sf::Vector2u(texture_.getSize());
+    size_ = sf::Vector2u(texture_->getSize());
     drawable_ = false;
     gravity_impacted_ = false;
 }

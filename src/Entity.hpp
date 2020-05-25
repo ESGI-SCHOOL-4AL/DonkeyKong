@@ -26,7 +26,7 @@ class Entity {
         void SetPosition(float x_position, float y_position);
     
     protected:
-        sf::Texture texture_;
+        std::shared_ptr<sf::Texture> texture_;
         std::shared_ptr<sf::Sprite> sprite_;
         bool drawable_;
         bool gravity_impacted_;
