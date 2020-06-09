@@ -14,8 +14,16 @@ public:
     Controllable(std::string texture_path) : Entity(texture_path){};
     Controllable(std::string texture_path, float x_position, float y_position) : Entity(texture_path, x_position, y_position){};
 
-    virtual void KeyPressed(sf::Event event) = 0;
-    virtual void KeyReleased(sf::Event event) = 0;
+    void KeyPressed(sf::Event event);
+    void KeyReleased(sf::Event event);
+    void Draw(std::shared_ptr<sf::RenderWindow> window) override;
+
+    bool moving_up_ = false;
+    bool moving_down_ = false;
+    bool moving_left_ = false;
+    bool moving_right_ = false;
+
+    float movement_speed_ = .03;
 };
 
 #endif

@@ -20,15 +20,14 @@ std::vector<std::shared_ptr<Entity>> LevelGenerator::GenerateLevel(std::shared_p
     Mario mario = Mario();
     float mario_y_size = mario.GetSize().y;
     mario.SetPosition(100.f + 70.f, SPACING_BETWEEN_PLATFORM * 5 - mario_y_size);
-    entities.push_back(mario);
-    event_manager->RegisterControllableEntity(std::make_shared<Mario>(mario));
+    auto shared = std::make_shared<Mario>(mario);
+    event_manager->RegisterControllableEntity(shared);
 
     for (Entity entity : entities)
     {
-        std::shared_ptr<Entity> entity_ptr = std::make_shared<Entity>();
-        *entity_ptr = entity;
-        entities_ptr.push_back(entity_ptr);
+        entities_ptr.push_back(std::make_shared<Entity>(entity));
     }
+    entities_ptr.push_back(shared);
 
     return entities_ptr;
 }

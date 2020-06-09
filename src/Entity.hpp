@@ -18,7 +18,7 @@ public:
     Entity(std::string texture_path, float x_position, float y_position);
     virtual ~Entity();
 
-    void Draw(std::shared_ptr<sf::RenderWindow> window);
+    virtual void Draw(std::shared_ptr<sf::RenderWindow> window);
     std::shared_ptr<sf::Sprite> GetSprite();
     std::string GetTexturePath();
     bool IsDrawable();
