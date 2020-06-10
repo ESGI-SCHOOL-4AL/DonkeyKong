@@ -5,28 +5,28 @@ LevelGenerator::LevelGenerator() {}
 std::vector<std::shared_ptr<Entity>> LevelGenerator::GenerateLevel(std::shared_ptr<EventManager> event_manager)
 {
     std::vector<std::shared_ptr<Entity>> entities_ptr;
-    std::vector<Entity> entities;
+
+    std::vector<Ladder> ladders = GenerateLadders(SPACING_FROM_WINDOW, SPACING_BETWEEN_PLATFORM);
+    for (auto l : ladders)
+    {
+        entities_ptr.push_back(std::make_shared<Ladder>(l));
+    }
 
     for (int i = 1; i <= PLATFORM_NUMBER; i++)
     {
         std::vector<Block> current_platform;
         current_platform = GeneratePlatform(SPACING_FROM_WINDOW, SPACING_BETWEEN_PLATFORM * i);
-        entities.insert(entities.end(), current_platform.begin(), current_platform.end());
+        for (auto p : current_platform)
+        {
+            entities_ptr.push_back(std::make_shared<Block>(p));
+        }
     }
-
-    std::vector<Ladder> ladders = GenerateLadders(SPACING_FROM_WINDOW, SPACING_BETWEEN_PLATFORM);
-    entities.insert(entities.end(), ladders.begin(), ladders.end());
 
     Mario mario = Mario();
     float mario_y_size = mario.GetSize().y;
     mario.SetPosition(100.f + 70.f, SPACING_BETWEEN_PLATFORM * 5 - mario_y_size);
     auto shared = std::make_shared<Mario>(mario);
     event_manager->RegisterControllableEntity(shared);
-
-    for (Entity entity : entities)
-    {
-        entities_ptr.push_back(std::make_shared<Entity>(entity));
-    }
     entities_ptr.push_back(shared);
 
     return entities_ptr;

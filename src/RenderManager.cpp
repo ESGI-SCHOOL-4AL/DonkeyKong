@@ -13,6 +13,7 @@ void RenderManager::Render(std::vector<std::shared_ptr<Entity>> entities)
 
     for (std::shared_ptr<Entity> &entity : entities)
     {
+        entity->CheckCollisions(entities);
         entity->Draw(managed_window_);
     }
 

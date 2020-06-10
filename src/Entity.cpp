@@ -61,4 +61,8 @@ void Entity::SetPosition(float x_position, float y_position)
     sprite_->setPosition(x_position, y_position);
 }
 
+void Entity::CheckCollisions(std::vector<std::shared_ptr<Entity>> entities) {}
+
+void Entity::OnCollision(std::shared_ptr<Entity> other_entity) {}
+
 Entity::~Entity() {}

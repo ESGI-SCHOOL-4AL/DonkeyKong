@@ -17,6 +17,8 @@ public:
     void KeyPressed(sf::Event event);
     void KeyReleased(sf::Event event);
     void Draw(std::shared_ptr<sf::RenderWindow> window) override;
+    void OnCollision(std::shared_ptr<Entity> other_entity) override;
+    void CheckCollisions(std::vector<std::shared_ptr<Entity>> entities) override;
 
     bool moving_up_ = false;
     bool moving_down_ = false;
@@ -24,6 +26,7 @@ public:
     bool moving_right_ = false;
 
     float movement_speed_ = .03;
+    float gravity_ = .05;
 };
 
 #endif

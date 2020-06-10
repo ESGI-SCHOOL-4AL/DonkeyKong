@@ -10,7 +10,7 @@
 #define DEFAULT_X_POSITION 0.f
 #define DEFAULT_Y_POSITION 0.f
 
-class Entity
+class Entity : public std::enable_shared_from_this<Entity>
 {
 public:
     Entity();
@@ -19,12 +19,19 @@ public:
     virtual ~Entity();
 
     virtual void Draw(std::shared_ptr<sf::RenderWindow> window);
+    virtual void CheckCollisions(std::vector<std::shared_ptr<Entity>> entities);
+    virtual void OnCollision(std::shared_ptr<Entity> other_entity);
     std::shared_ptr<sf::Sprite> GetSprite();
     std::string GetTexturePath();
     bool IsDrawable();
     bool IsGravityImpacted();
     sf::Vector2u GetSize();
     void SetPosition(float x_position, float y_position);
+
+    std::shared_ptr<Entity> shared_ptr()
+    {
+        return shared_from_this();
+    }
 
 protected:
     std::shared_ptr<sf::Texture> texture_;

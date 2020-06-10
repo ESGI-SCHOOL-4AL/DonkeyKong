@@ -1,7 +1,5 @@
 #include "Controllable.hpp"
 
-#include <iostream>
-
 void Controllable::KeyPressed(sf::Event event)
 {
     switch (event.key.code)
@@ -42,7 +40,14 @@ void Controllable::KeyReleased(sf::Event event)
 
 void Controllable::Draw(std::shared_ptr<sf::RenderWindow> window)
 {
+    Entity::Draw(window);
+}
+
+void Controllable::CheckCollisions(std::vector<std::shared_ptr<Entity>> entities)
+{
     auto pos = sprite_->getPosition();
+
+    // If ladder
     if (moving_up_)
     {
         pos.y -= movement_speed_;
@@ -51,6 +56,8 @@ void Controllable::Draw(std::shared_ptr<sf::RenderWindow> window)
     {
         pos.y += movement_speed_;
     }
+
+    // If platform or ladder
     if (moving_left_)
     {
         pos.x -= movement_speed_;
@@ -59,6 +66,37 @@ void Controllable::Draw(std::shared_ptr<sf::RenderWindow> window)
     {
         pos.x += movement_speed_;
     }
+
+    // Gravity
+    pos.y += gravity_;
+
     sprite_->setPosition(pos);
-    Entity::Draw(window);
+    for (auto &entity : entities)
+    {
+        if (this->GetSprite() == entity->GetSprite())
+        {
+            continue;
+        }
+        auto sprite = entity->GetSprite();
+        auto other_pos = sprite->getPosition();
+        auto other_size = entity->GetSize();
+        auto pos = sprite_->getPosition();
+
+        auto left_boundary = pos.x;
+        auto right_boundary = pos.x + size_.x;
+        auto top_boundary = pos.y;
+        auto bottom_boundary = pos.y + size_.y;
+
+        if (
+            ((left_boundary >= other_pos.x && left_boundary <= other_pos.x + other_size.x) ||
+             (right_boundary >= other_pos.x && right_boundary <= other_pos.x + other_size.x)) &&
+            ((top_boundary >= other_pos.y && top_boundary <= other_pos.y + other_size.y) ||
+             (bottom_boundary >= other_pos.y && bottom_boundary <= other_pos.y + other_size.y)))
+        {
+            entity->OnCollision(shared_ptr());
+            break;
+        }
+    }
 }
+
+void Controllable::OnCollision(std::shared_ptr<Entity> other_entity) {}

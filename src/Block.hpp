@@ -7,15 +7,17 @@
 
 #include "Entity.hpp"
 
-class Block : public Entity {
-    public:
-        Block();
-        Block(float x_position, float y_position); 
-        ~Block();
-    
-    private:
-        static const std::string BLOCK_TEXTURE_PATH; 
+class Block : public Entity
+{
+public:
+    Block();
+    Block(float x_position, float y_position);
+    void OnCollision(std::shared_ptr<Entity> other_entity) override;
+    void CheckCollisions(std::vector<std::shared_ptr<Entity>> entities) override;
+    ~Block();
 
+private:
+    static const std::string BLOCK_TEXTURE_PATH;
 };
 
 #endif
