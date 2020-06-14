@@ -47,7 +47,6 @@ void Controllable::CheckCollisions(std::vector<std::shared_ptr<Entity>> entities
 {
     auto pos = sprite_->getPosition();
 
-    // If ladder
     if (moving_up_)
     {
         pos.y -= movement_speed_;
@@ -57,7 +56,6 @@ void Controllable::CheckCollisions(std::vector<std::shared_ptr<Entity>> entities
         pos.y += movement_speed_;
     }
 
-    // If platform or ladder
     if (moving_left_)
     {
         pos.x -= movement_speed_;
@@ -71,6 +69,7 @@ void Controllable::CheckCollisions(std::vector<std::shared_ptr<Entity>> entities
     pos.y += gravity_;
 
     sprite_->setPosition(pos);
+    auto this_entity = shared_ptr();
     for (auto &entity : entities)
     {
         if (this->GetSprite() == entity->GetSprite())
@@ -87,16 +86,28 @@ void Controllable::CheckCollisions(std::vector<std::shared_ptr<Entity>> entities
         auto top_boundary = pos.y;
         auto bottom_boundary = pos.y + size_.y;
 
-        if (
-            ((left_boundary >= other_pos.x && left_boundary <= other_pos.x + other_size.x) ||
-             (right_boundary >= other_pos.x && right_boundary <= other_pos.x + other_size.x)) &&
-            (/* (top_boundary >= other_pos.y && top_boundary <= other_pos.y + other_size.y) || */
-             (bottom_boundary >= other_pos.y && bottom_boundary <= other_pos.y + other_size.y)))
+        if (CheckCollisions(entity, this_entity, true) || CheckCollisions(this_entity, entity, false))
         {
-            entity->OnCollision(shared_ptr());
+            entity->OnCollision(this_entity);
             break;
         }
     }
+}
+
+bool Controllable::CheckCollisions(std::shared_ptr<Entity> entity, std::shared_ptr<Entity> entity2, bool ignore_top_boundary)
+{
+    auto sprite = entity->GetSprite();
+    auto other_pos = sprite->getPosition();
+    auto other_size = entity->GetSize();
+    auto pos = entity2->GetSprite()->getPosition();
+    auto left_boundary = pos.x;
+    auto right_boundary = pos.x + size_.x;
+    auto top_boundary = pos.y;
+    auto bottom_boundary = pos.y + size_.y;
+    return ((left_boundary >= other_pos.x && left_boundary <= other_pos.x + other_size.x) ||
+            (right_boundary >= other_pos.x && right_boundary <= other_pos.x + other_size.x)) &&
+           ((!ignore_top_boundary && top_boundary >= other_pos.y && top_boundary <= other_pos.y + other_size.y) ||
+            (bottom_boundary >= other_pos.y && bottom_boundary <= other_pos.y + other_size.y));
 }
 
 void Controllable::OnCollision(std::shared_ptr<Entity> other_entity) {}

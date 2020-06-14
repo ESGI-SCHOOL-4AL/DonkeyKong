@@ -27,6 +27,9 @@ public:
 
     float movement_speed_ = 1;
     float gravity_ = 2;
+
+private:
+    bool CheckCollisions(std::shared_ptr<Entity> entity, std::shared_ptr<Entity> entity2, bool ignore_top_boundary);
 };
 
 #endif
