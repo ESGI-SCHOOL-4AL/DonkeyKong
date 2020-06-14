@@ -8,15 +8,17 @@
 
 #include "Entity.hpp"
 
-class RenderManager {
-    public:
-        RenderManager();
-        RenderManager(std::shared_ptr<sf::RenderWindow> window);
-        ~RenderManager();
-        void Render(std::vector<std::shared_ptr<Entity>> entities);
-    
-    private:
-        std::shared_ptr<sf::RenderWindow> managed_window_;
+class RenderManager
+{
+public:
+    RenderManager();
+    RenderManager(std::shared_ptr<sf::RenderWindow> window);
+    ~RenderManager();
+    void Update(std::vector<std::shared_ptr<Entity>> entities);
+    void Render(std::vector<std::shared_ptr<Entity>> entities);
+
+private:
+    std::shared_ptr<sf::RenderWindow> managed_window_;
 };
 
 #endif

@@ -20,6 +20,7 @@ public:
     void Run();
 
 private:
+    static const sf::Time timePerFrame;
     const char *mainWindowName = "Donkey Kong 1981";
     std::shared_ptr<sf::RenderWindow> main_window_;
     std::shared_ptr<EventManager> event_manager_;

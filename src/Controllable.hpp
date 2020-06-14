@@ -25,8 +25,8 @@ public:
     bool moving_left_ = false;
     bool moving_right_ = false;
 
-    float movement_speed_ = .03;
-    float gravity_ = .05;
+    float movement_speed_ = 1;
+    float gravity_ = 2;
 };
 
 #endif
