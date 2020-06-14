@@ -15,9 +15,14 @@ Block::Block(float x_position, float y_position) : Entity(BLOCK_TEXTURE_PATH, x_
 void Block::OnCollision(std::shared_ptr<Entity> other_entity)
 {
     auto sprite = other_entity->GetSprite();
-    auto pos = sprite->getPosition();
-    pos.y = sprite_->getPosition().y - other_entity->GetSize().y;
-    other_entity->SetPosition(pos.x, pos.y);
+    auto other_size = other_entity->GetSize();
+    auto other_pos = sprite->getPosition();
+    auto pos = sprite_->getPosition();
+    if (other_pos.y + other_size.y >= pos.y && other_pos.y + other_size.y <= pos.y + size_.y)
+    {
+        other_pos.y = pos.y - other_size.y;
+        other_entity->SetPosition(other_pos.x, other_pos.y);
+    }
 }
 
 void Block::CheckCollisions(std::vector<std::shared_ptr<Entity>> entities) {}
