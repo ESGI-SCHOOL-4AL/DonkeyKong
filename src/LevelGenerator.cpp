@@ -54,11 +54,10 @@ std::vector<Ladder> LevelGenerator::GenerateLadders(float x_position, float y_po
     std::vector<Ladder> ladders;
     Block block = Block();
     float x_size = block.GetSize().x;
-    float y_size = block.GetSize().y;
 
     for (int i = 1; i <= LADDER_NUMBER; i++)
     {
-        ladders.push_back(Ladder(x_position + x_size * i, y_size + y_position * i));
+        ladders.push_back(Ladder(x_position + x_size * i, 1 + y_position * i));
     }
 
     return ladders;

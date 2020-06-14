@@ -1,7 +1,7 @@
 #include "Ladder.hpp"
 #include "Controllable.hpp"
 
-const std::string Ladder::LADDER_TEXTURE_PATH = "Media/Textures/Echelle.png";
+const std::string Ladder::LADDER_TEXTURE_PATH = "Media/Textures/Echelle_long.png";
 
 Ladder::Ladder() : Entity(LADDER_TEXTURE_PATH)
 {

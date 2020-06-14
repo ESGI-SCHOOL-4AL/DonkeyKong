@@ -90,7 +90,7 @@ void Controllable::CheckCollisions(std::vector<std::shared_ptr<Entity>> entities
         if (
             ((left_boundary >= other_pos.x && left_boundary <= other_pos.x + other_size.x) ||
              (right_boundary >= other_pos.x && right_boundary <= other_pos.x + other_size.x)) &&
-            ((top_boundary >= other_pos.y && top_boundary <= other_pos.y + other_size.y) ||
+            (/* (top_boundary >= other_pos.y && top_boundary <= other_pos.y + other_size.y) || */
              (bottom_boundary >= other_pos.y && bottom_boundary <= other_pos.y + other_size.y)))
         {
             entity->OnCollision(shared_ptr());
