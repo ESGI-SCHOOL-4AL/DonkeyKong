@@ -1,18 +1,23 @@
 #ifndef BLOCK_HPP
 #define BLOCK_HPP
 
+#include <string>
+
+#include <SFML/Graphics.hpp>
+
 #include "Entity.hpp"
 
-#define BLOCK_WIDHT 70.f
-#define BLOCK_HEIGHT 33.f
+class Block : public Entity
+{
+public:
+    Block();
+    Block(float x_position, float y_position);
+    void OnCollision(std::shared_ptr<Entity> other_entity) override;
+    void CheckCollisions(std::vector<std::shared_ptr<Entity>> entities) override;
+    ~Block();
 
-class Block : public Entity {
-    public:
-        Block();
-    
-    private:
-        const char* blockTexturePath = "Media/Textures/Block.png";
-
+private:
+    static const std::string BLOCK_TEXTURE_PATH;
 };
 
 #endif

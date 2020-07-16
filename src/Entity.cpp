@@ -1,53 +1,68 @@
 #include "Entity.hpp"
 
-Entity::Entity()
+Entity::Entity() {}
+
+Entity::Entity(std::string texture_path)
 {
-    sprite_;
-    size_;
-    position_;
-    velocity_;
-    drawable_ = true;
-    gravity_ = false;
-}
-
-bool Entity::CollidesWith(sf::Sprite entity)
-{
-    return WillCollide(entity, sprite_.getPosition());
-}
-
-bool Entity::WillCollide(sf::Sprite entity, sf::Vector2f new_pos)
-{
-    auto size_entity_texture = entity.getTexture()->getSize();
-    auto pos = entity.getPosition();
-
-    bool collidesX = new_pos.x + size_.x >= pos.x && new_pos.x <= pos.x + size_entity_texture.x;
-    bool collidesY = new_pos.y + size_.y >= pos.y && new_pos.y <= pos.y + size_entity_texture.y;
-
-    return collidesX && collidesY;
-}
-
-void Entity::Update(std::vector<Entity> entities, sf::Time elapsedTime)
-{
-    sf::Vector2f new_pos = sf::Vector2f(velocity_.x, velocity_.y);
-
-    if (gravity_)
+    texture_path_ = texture_path;
+    texture_ = std::make_shared<sf::Texture>();
+    if (!texture_->loadFromFile(texture_path_))
     {
-        new_pos += sf::Vector2f(0.f, GRAVITY) * elapsedTime.asSeconds() + sprite_.getPosition();
-
-        for (Entity entity : entities)
-        {
-            if (WillCollide(entity.sprite_, new_pos))
-            {
-                return;
-            }
-        }
-
-        sprite_.move(sf::Vector2f(0.f, GRAVITY) * elapsedTime.asSeconds());
+        throw FileNotFoundException();
     }
+
+    sprite_ = std::make_shared<sf::Sprite>();
+    sprite_->setTexture(*texture_);
+    sprite_->setPosition(DEFAULT_X_POSITION, DEFAULT_Y_POSITION);
+
+    size_ = sf::Vector2u(texture_->getSize());
+    drawable_ = false;
+    gravity_impacted_ = false;
 }
 
-void Entity::Draw(sf::RenderWindow *window)
+Entity::Entity(std::string texture_path, float x_position, float y_position) : Entity(texture_path)
+{
+    sprite_->setPosition(x_position, y_position);
+}
+
+void Entity::Draw(std::shared_ptr<sf::RenderWindow> window)
 {
     if (drawable_)
-        window->draw(sprite_);
+        window->draw(*sprite_);
 }
+
+std::shared_ptr<sf::Sprite> Entity::GetSprite()
+{
+    return sprite_;
+}
+
+std::string Entity::GetTexturePath()
+{
+    return texture_path_;
+}
+
+bool Entity::IsDrawable()
+{
+    return drawable_;
+}
+
+bool Entity::IsGravityImpacted()
+{
+    return gravity_impacted_;
+}
+
+sf::Vector2u Entity::GetSize()
+{
+    return size_;
+}
+
+void Entity::SetPosition(float x_position, float y_position)
+{
+    sprite_->setPosition(x_position, y_position);
+}
+
+void Entity::CheckCollisions(std::vector<std::shared_ptr<Entity>> entities) {}
+
+void Entity::OnCollision(std::shared_ptr<Entity> other_entity) {}
+
+Entity::~Entity() {}

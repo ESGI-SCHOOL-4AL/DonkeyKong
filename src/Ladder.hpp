@@ -1,18 +1,20 @@
 #ifndef LADDER_HPP
 #define LADDER_HPP
 
+#include <string>
+
 #include "Entity.hpp"
 
-#define LADDER_WIDTH 30.f
-#define LADDER_HEIGHT 70.f
-
-class Ladder : Entity
+class Ladder : public Entity
 {
 public:
     Ladder();
+    Ladder(float x_position, float y_position);
+    void OnCollision(std::shared_ptr<Entity> other_entity) override;
+    ~Ladder();
 
-public:
-    const char *ladderTexturePath = "Media/Textures/Echelle.png";
+private:
+    static const std::string LADDER_TEXTURE_PATH;
 };
 
 #endif
